@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://codearena-yfc7.onrender.com",
   withCredentials: true, // ⬅ important if backend uses cookies
   headers: {
     "Content-Type": "application/json",
