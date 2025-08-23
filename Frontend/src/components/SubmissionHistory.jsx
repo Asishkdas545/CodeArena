@@ -11,7 +11,9 @@ const SubmissionHistory = ({ problemId }) => {
         const fetchSubmissions = async () => {
         try {
             setLoading(true);
-            const response = await axiosClient.get(`/problem/submittedProblem/${problemId}`);
+            const response = await axiosClient.get(`/problem/submittedProblem/${problemId}`,
+                {withCredentials: true}
+            );
             setSubmissions(response.data);
             setError(null);
         } catch (err) {

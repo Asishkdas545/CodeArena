@@ -80,7 +80,8 @@ const ProblemPage = () => {
     try {
       const response = await axiosClient.post(`/submission/run/${problemId}`, {
         code,
-        language: selectedLanguage
+        language: selectedLanguage,
+        withCredentials: true
       });
 
       setRunResult(response.data);
@@ -105,7 +106,8 @@ const ProblemPage = () => {
     try {
         const response = await axiosClient.post(`/submission/submit/${problemId}`, {
         code:code,
-        language: selectedLanguage
+        language: selectedLanguage,
+        withCredentials: true
       });
 
         setSubmitResult(response.data);
