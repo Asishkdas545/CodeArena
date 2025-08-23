@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(cors({
     //ye kahuchi jau bhi token backend serve karibo taku khali 
     //ehi ip ku serve kare bcz frontend is hoisted in this ip only
-    origin:'http://localhost:5173',
+    origin:'*',
     credentials:true
 }))
 
