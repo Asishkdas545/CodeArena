@@ -11,11 +11,10 @@ const aiRouter = require("./routes/aiChatting");
 const cors = require('cors');
 
 app.use(cors({
-    //ye kahuchi jau bhi token backend serve karibo taku khali 
-    //ehi ip ku serve kare bcz frontend is hoisted in this ip only
-    origin:'*',
-    credentials:true
-}))
+    origin: 'https://code-arena-j6hna76aj-asishkdas545s-projects.vercel.app',
+    credentials: true
+}));
+
 
 //to convert json to js object
 app.use(express.json());
