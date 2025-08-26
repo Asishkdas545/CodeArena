@@ -25,7 +25,13 @@ const register = async (req,res)=>{
         console.log("hello2");
         const token = jwt.sign({_id:user._id,emailID:emailID,role:'user'},process.env.JWT_TOKEN,{expiresIn:3600});
         console.log("hello3");
-        res.cookie('token',token,{maxAge: 60*60*1000});
+        res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,  // 1 hour
+  httpOnly: true,
+  secure: true,            // required on Render (HTTPS)
+  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
+});
+
         console.log("hello4");
         res.status(201).json({
             user:reply,
@@ -57,13 +63,13 @@ const login = async (req,res)=>{
             _id:user._id
         }
         const token = jwt.sign({_id:user._id,emailID:emailID,role:user.role},process.env.JWT_TOKEN,{expiresIn:3600});
-        res.cookie('token',token,{maxAge: 60*60*1000},
-            {
-                httpOnly: true,
-                secure: true,       // must be true on HTTPS (Render + Vercel)
-                sameSite: "none"    // required for cross-site cookies
-                }
-        );
+        res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,  // 1 hour
+  httpOnly: true,
+  secure: true,            // required on Render (HTTPS)
+  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
+});
+
         res.status(200).json({
             user:reply,
             message:"Loggin Successfully"
@@ -80,11 +86,13 @@ const logout = async (req,res)=>{
         const payload = jwt.decode(token);
         await redisClient.set(`token:${token}`,'Blocked');
         await redisClient.expireAt(`token:${token}`,payload.exp);
-        res.cookie("token",null,{expires: new Date(Date.now())},{
+        res.cookie("token", null, {
+  expires: new Date(Date.now()), // expire immediately
   httpOnly: true,
-  secure: true,       // must be true on HTTPS (Render + Vercel)
-  sameSite: "none"    // required for cross-site cookies
+  secure: true,
+  sameSite: "none"
 });
+
         res.send("Logged out Successfully");
     }
     catch(err){
@@ -103,11 +111,13 @@ const adminRegister = async (req,res)=>{
         //I am putting role also because I dont want to call database again and again
         //console.log(process.env.JWT_TOKEN);
         const token = jwt.sign({_id:user._id,emailID:emailID,role:user.role},process.env.JWT_TOKEN,{expiresIn:3600});
-        res.cookie('token',token,{maxAge: 60*60*1000},{
+        res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,  // 1 hour
   httpOnly: true,
-  secure: true,       // must be true on HTTPS (Render + Vercel)
-  sameSite: "none"    // required for cross-site cookies
+  secure: true,            // required on Render (HTTPS)
+  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
 });
+
         res.status(201).send("user registered successfully");
     }
     catch(err){
