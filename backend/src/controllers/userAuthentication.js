@@ -8,7 +8,6 @@ const submission = require("../models/submission")
 
 const register = async (req,res)=>{
     try{
-        console.log("hello1");
         validator(req.body);
         const {firstName,emailID,password} = req.body;
         req.body.password = await bcrypt.hash(password,10);
@@ -22,17 +21,14 @@ const register = async (req,res)=>{
         }
         //there is a method for generating random jwt secret key
         //I am putting role also because I dont want to call database again and again
-        console.log("hello2");
         const token = jwt.sign({_id:user._id,emailID:emailID,role:'user'},process.env.JWT_TOKEN,{expiresIn:3600});
-        console.log("hello3");
         res.cookie("token", token, {
-  maxAge: 60 * 60 * 1000,  // 1 hour
-  httpOnly: true,
-  secure: true,            // required on Render (HTTPS)
-  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
-});
+        maxAge: 60 * 60 * 1000,  // 1 hour
+        httpOnly: true,
+        secure: true,            // required on Render (HTTPS)
+        sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
+        });
 
-        console.log("hello4");
         res.status(201).json({
             user:reply,
             message:"Registered Successfully"
@@ -64,11 +60,11 @@ const login = async (req,res)=>{
         }
         const token = jwt.sign({_id:user._id,emailID:emailID,role:user.role},process.env.JWT_TOKEN,{expiresIn:3600});
         res.cookie("token", token, {
-  maxAge: 60 * 60 * 1000,  // 1 hour
-  httpOnly: true,
-  secure: true,            // required on Render (HTTPS)
-  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
-});
+        maxAge: 60 * 60 * 1000,  // 1 hour
+        httpOnly: true,
+        secure: true,            // required on Render (HTTPS)
+        sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
+        });
 
         res.status(200).json({
             user:reply,
@@ -83,15 +79,15 @@ const login = async (req,res)=>{
 const logout = async (req,res)=>{
     try{
         const {token} = req.cookies;
-        const payload = jwt.decode(token);
+        const payload = jwt.verify(token, process.env.JWT_TOKEN);
         await redisClient.set(`token:${token}`,'Blocked');
         await redisClient.expireAt(`token:${token}`,payload.exp);
         res.cookie("token", null, {
-  expires: new Date(Date.now()), // expire immediately
-  httpOnly: true,
-  secure: true,
-  sameSite: "none"
-});
+        expires: new Date(Date.now()), // expire immediately
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+        });
 
         res.send("Logged out Successfully");
     }
@@ -112,11 +108,11 @@ const adminRegister = async (req,res)=>{
         //console.log(process.env.JWT_TOKEN);
         const token = jwt.sign({_id:user._id,emailID:emailID,role:user.role},process.env.JWT_TOKEN,{expiresIn:3600});
         res.cookie("token", token, {
-  maxAge: 60 * 60 * 1000,  // 1 hour
-  httpOnly: true,
-  secure: true,            // required on Render (HTTPS)
-  sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
-});
+        maxAge: 60 * 60 * 1000,  // 1 hour
+        httpOnly: true,
+        secure: true,            // required on Render (HTTPS)
+        sameSite: "none"         // required for cross-site cookies (Vercel <-> Render)
+        });
 
         res.status(201).send("user registered successfully");
     }

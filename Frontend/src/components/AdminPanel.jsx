@@ -38,7 +38,6 @@ const problemSchema = z.object({
 });
 
 function AdminPanel() {
-    console.log("why");
     const navigate = useNavigate();
     const {
         register,
@@ -60,7 +59,6 @@ function AdminPanel() {
         ]
         }
     });
-    console.log("fuck");
     const {
         fields: visibleFields,
         append: appendVisible,
@@ -78,7 +76,6 @@ function AdminPanel() {
         control,
         name: 'hiddenTestCases'
     });
-    console.log("xdxd");
     const onSubmit = async (data) => {
         try {
         console.log("right path");
@@ -292,7 +289,6 @@ function AdminPanel() {
             </div>
 
             <button type="submit" className="btn btn-primary w-full">
-                    {console.log("neharika")}
             Create Problem
             </button>
         </form>

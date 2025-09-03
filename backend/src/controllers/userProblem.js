@@ -90,6 +90,7 @@ const UpdateProblem = async (req,res)=>{
         if(!DsaProblem){
             return res.status(404).send("ID is not present in server");
         }
+        //update karila pare new problem taku se newProblem bhitare purei daba sethi paen tu new:true lekhichu
         const newProblem = await Problem.findByIdAndUpdate(id,{...req.body},{runValidators:true,new:true});
         res.status(200).send(newProblem);
 
@@ -146,6 +147,8 @@ const getAllProblem = async(req,res)=>{
 const solvedAllProblembyUser = async(req,res)=>{
     try{
         const userId = req.result._id;
+        //it is saying to go to that problemId and bring these selected things and store them in problemSolved
+        //rather than just storing the problemId
         const people = await User.findById(userId).populate({
             path:"problemSolved",
             select:"_id title difficulty tags"

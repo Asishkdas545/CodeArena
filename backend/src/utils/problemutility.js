@@ -31,6 +31,7 @@ const submitBatch = async (submissions)=>{
 
     async function fetchData() {
         try {
+            //aiti just simple fetch request maruche using axios
             const response = await axios.request(options);
             return response.data;
         } catch (error) {
