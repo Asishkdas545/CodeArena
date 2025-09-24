@@ -46,7 +46,7 @@ function Homepage() {
     dispatch(logoutUser());
     setSolvedProblems([]); // Clear solved problems on logout
   };
-
+ 
   const filteredProblems = problems.filter(problem => {
     const difficultyMatch = filters.difficulty === 'all' || problem.difficulty === filters.difficulty;
     const tagMatch = filters.tag === 'all' || problem.tags === filters.tag;

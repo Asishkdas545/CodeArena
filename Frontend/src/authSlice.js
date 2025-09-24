@@ -4,11 +4,15 @@ import axiosClient from './utils/axiosClient'
 export const checkAuth = createAsyncThunk(
     "auth/check",
     async (_, { rejectWithValue }) => {
+        console.log("yesss")
         try {
         const { data } = await axiosClient.get("/user/check");
+        console.log(data);
         return data.user;
         } catch (error) {
+            console.log(error.message);
         return rejectWithValue(error.response?.data || { message: error.message });
+        
         }
     }
 );
